@@ -6,3 +6,6 @@
 
 # Don't ignore .ASM files
 !*.ASM
+
+# Don't ignore .md files
+!*.md
