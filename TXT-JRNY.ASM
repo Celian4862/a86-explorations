@@ -1,0 +1,34 @@
+MOV DS,0B800
+MOV BX,0
+
+LOOP3:
+  MOV CX,0
+  LOOP2:
+    MOV SI,158
+    MOV DI,156
+    ADD SI,CX
+    ADD DI,CX
+
+    MOV AH,[DS:SI]
+    MOV AL,[DS:SI + 1]
+    LOOP1:
+      MOV DH,[DS:DI]
+      MOV [DS:SI],DH
+      SUB SI,2
+      SUB DI,2
+      CMP DI,CX
+      JGE LOOP1
+    MOV [DS:SI],AH
+    MOV [DS:SI + 1],AL
+
+    ADD CX,160
+    CMP CX,4000
+    JL LOOP2
+  MOV CX,0FFFF
+  DELAY:
+    LOOP DELAY
+
+  INC BX
+  CMP BX,80
+  JL LOOP3
+INT 020

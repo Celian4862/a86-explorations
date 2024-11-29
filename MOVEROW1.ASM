@@ -1,0 +1,32 @@
+MOV DS,0B800
+MOV BL,80
+
+CYCLE:
+  
+  MOV SI,158
+  MOV DI,156
+  MOV AL,B[DS:SI]
+    
+  MOVEIT:
+    
+    MOV CH,B[DS:DI]
+    MOV B[DS:SI],CH
+
+    SUB SI,2
+    SUB DI,2
+    
+    CMP DI,0
+    JGE MOVEIT
+  
+  MOV B[DS:0],AL
+
+  MOV CX,1
+  MOV DX,0
+  MOV AH,086
+  INT 015
+  
+  DEC BL
+  CMP BL,0
+  JG CYCLE
+
+INT 020

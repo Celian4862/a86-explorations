@@ -1,0 +1,8 @@
+# Ignore everything
+*
+
+# Don't ignore .gitignore and .gitkeep
+!.gitignore
+
+# Don't ignore .ASM files
+!*.ASM
