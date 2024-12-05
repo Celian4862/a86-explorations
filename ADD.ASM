@@ -19,9 +19,11 @@ MAIN:
   CALL INPUT
   ADD AX,BX
 
+  PUSH AX
   MOV DX,OFFSET MSG3
   MOV AH,09
   INT 021
+  POP AX
 
   CALL PRINT_NUM
 
@@ -52,7 +54,7 @@ INPUT:
 PRINT_NUM:
   XOR CX,CX
   CMP AX,0
-  JNE PRINT_LOOP
+  JNE L2
   MOV DX,'0'
   PUSH DX
   INC CX
@@ -68,13 +70,13 @@ PRINT_NUM:
     JNZ L2
   L3: 
     POP DX
-    MOV AH, 02H
-    INT 21H
+    MOV AH, 02
+    INT 021
     LOOP L3
-    MOV DL, 0DH
-    MOV AH, 02H
+    MOV DL, 0D
+    MOV AH, 02
     INT 21H
-    MOV DL, 0AH
-    MOV AH, 02H
-    INT 21H
+    MOV DL, 0A
+    MOV AH, 02
+    INT 021
     RET
