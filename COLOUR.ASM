@@ -1,0 +1,85 @@
+MOV AH,0
+MOV AL,013
+INT 010
+
+MOV ES,0A000
+
+CALL DRAW
+
+MOV AH,0
+MOV AL,3
+INT 010
+
+INT 020
+
+DRAW:
+  MOV AH,1
+  INT 021
+  CMP AL,030
+  JE STOP
+  CALL COLOUR
+  CALL PAUSE
+  JMP DRAW
+
+  STOP:
+    MOV DL,0Dh
+    MOV AH,2
+    INT 021
+    MOV DL,0A
+    MOV AH,2
+    INT 021
+    RET
+
+COLOUR:
+  CMP AL,031
+  JE RED
+  CMP AL,032
+  JE GREEN
+  CMP AL,033
+  JE BLUE
+  MOV AL,0
+  RET
+
+RED:
+  MOV AL,04
+  RET
+GREEN:
+  MOV AL,2
+  RET
+BLUE:
+  MOV AL,1
+  RET
+
+PAUSE:
+  PUSH AX
+  MOV AX,1
+  INT 033
+  L0:
+    MOV AX,3
+    INT 033
+    TEST BX,1
+    JNZ CLICK
+    JMP L0
+  CLICK_RESET:
+    MOV AX,1
+    INT 033
+  CLICK:
+    MOV AX,2
+    INT 033
+
+    SHR CX,1
+
+    IMUL DX,320
+    ADD DX,CX
+
+    POP AX
+    MOV DI,DX
+    MOV ES:[DI],AL
+    PUSH AX
+
+    MOV AX,3
+    INT 033
+    TEST BX,1
+    JNZ CLICK_RESET
+    POP AX
+    RET
