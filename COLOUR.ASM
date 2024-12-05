@@ -52,26 +52,21 @@ BLUE:
 
 PAUSE:
   PUSH AX
-  MOV AX,1
-  INT 033
+  CALL SHOW_MOUSE
   L0:
     MOV AX,3
     INT 033
     TEST BX,1
     JNZ CLICK
     JMP L0
-  CLICK_RESET:
-    MOV AX,1
-    INT 033
   CLICK:
-    MOV AX,2
-    INT 033
-
     SHR CX,1
 
     IMUL DX,320
     ADD DX,CX
 
+    MOV AX,2
+    INT 033
     POP AX
     MOV DI,DX
     MOV ES:[DI],AL
@@ -80,6 +75,12 @@ PAUSE:
     MOV AX,3
     INT 033
     TEST BX,1
-    JNZ CLICK_RESET
+    IF NZ CALL SHOW_MOUSE
+    JNZ CLICK
     POP AX
     RET
+
+SHOW_MOUSE:
+  MOV AX,1
+  INT 033
+  RET
