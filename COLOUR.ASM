@@ -70,8 +70,8 @@ PAUSE:
     POP AX
     MOV DI,DX
     MOV ES:[DI],AL
-    PUSH AX
 
+    PUSH AX
     MOV AX,3
     INT 033
     TEST BX,1
